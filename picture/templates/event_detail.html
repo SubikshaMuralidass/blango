@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.title }}Event Images</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    <style>
+        .image-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .image-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        .image-card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'picture:gallery' %}">Photo Gallery</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>{{ event.title }}</h1>
+                <p class="text-muted">{{ event.date }}</p>
+                <p>{{ event.description }}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for image in images %}
+            <div class="col-md-4 image-card">
+                <a href="{{ image.image.url }}" data-lightbox="event-gallery" data-title="{{ image.caption }}">
+                    <img src="{{ image.image.url }}" class="image-thumbnail" alt="{{ image.caption }}">
+                </a>
+                {% if image.caption %}
+                <p class="text-center mt-2">{{ image.caption }}</p>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <h3>No images available for this event</h3>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="row mt-4">
+            <div class="col">
+                <a href="{% url 'picture:gallery' %}" class="btn btn-primary">Back to Gallery</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 Photo Gallery. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <script>
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true
+        });
+    </script>
+</body>
+</html>

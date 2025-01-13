@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Grid View</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .grid-item:hover {
+            transform: translateY(-5px);
+        }
+        .grid-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        .grid-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            color: white;
+        }
+        .view-more {
+            opacity: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+        .grid-item:hover .view-more {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'picture:gallery' %}">Photo Gallery</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'picture:gallery' %}">Standard View</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="grid-container">
+            {% for event in events %}
+                <div class="grid-item">
+                    {% if event.images.first %}
+                        <img src="{{ event.images.first.image.url }}" alt="{{ event.title }}" class="grid-image">
+                    {% endif %}
+                    <div class="grid-overlay">
+                        <h5>{{ event.title }}</h5>
+                        <p class="mb-0">{{ event.date }}</p>
+                    </div>
+                    <a href="{% url 'picture:event_detail' event.pk %}" class="view-more">View Event</a>
+                </div>
+            {% empty %}
+                <div class="text-center w-100">
+                    <h3>No events available</h3>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p>&copy; 2024 Photo Gallery. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
