@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-t-ennd$%i28^f2rouit2c=ko-g*eit6rrtp7@r5@s8bvxivb%s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['plateconduct-divideoffice-8000.codio.io', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'picture',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -76,8 +76,10 @@ WSGI_APPLICATION = 'Gallery_pics.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'Gallery',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        
+        #'NAME': 'Gallery',
     }
 }
 
